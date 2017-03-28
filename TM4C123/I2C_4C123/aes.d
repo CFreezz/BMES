@@ -1,0 +1,12 @@
+.\aes.o: ..\driverlib\aes.c
+.\aes.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\aes.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\aes.o: ..\inc/hw_aes.h
+.\aes.o: ..\inc/hw_ccm.h
+.\aes.o: ..\inc/hw_ints.h
+.\aes.o: ..\inc/hw_memmap.h
+.\aes.o: ..\inc/hw_nvic.h
+.\aes.o: ..\inc/hw_types.h
+.\aes.o: ..\driverlib/aes.h
+.\aes.o: ..\driverlib/debug.h
+.\aes.o: ..\driverlib/interrupt.h

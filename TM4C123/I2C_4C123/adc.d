@@ -1,0 +1,11 @@
+.\adc.o: ..\driverlib\adc.c
+.\adc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\adc.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\adc.o: ..\inc/hw_adc.h
+.\adc.o: ..\inc/hw_ints.h
+.\adc.o: ..\inc/hw_memmap.h
+.\adc.o: ..\inc/hw_types.h
+.\adc.o: ..\inc/hw_sysctl.h
+.\adc.o: ..\driverlib/adc.h
+.\adc.o: ..\driverlib/debug.h
+.\adc.o: ..\driverlib/interrupt.h

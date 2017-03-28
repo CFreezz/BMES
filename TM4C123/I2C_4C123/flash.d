@@ -1,0 +1,10 @@
+.\flash.o: ..\driverlib\flash.c
+.\flash.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\flash.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\flash.o: ..\inc/hw_flash.h
+.\flash.o: ..\inc/hw_ints.h
+.\flash.o: ..\inc/hw_sysctl.h
+.\flash.o: ..\inc/hw_types.h
+.\flash.o: ..\driverlib/debug.h
+.\flash.o: ..\driverlib/flash.h
+.\flash.o: ..\driverlib/interrupt.h
