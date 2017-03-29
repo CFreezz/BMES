@@ -22,9 +22,9 @@ task main(){
 
 
 		/* Sends a message from 'i2cScanDeviceMsg[0]' to 'i2cScanPort' (S1) */
-		sendI2CMsg(i2cScanPort, i2cScanDeviceMsg, 1);  
-		wait1Msec(20);                                            
-		
+		sendI2CMsg(i2cScanPort, i2cScanDeviceMsg, 1);
+		wait1Msec(20);
+
 		/* Reads expected reply from the TM4C123 */
 		readI2CReply(i2cScanPort,&replyMsg[0], 1);
 		string msg = "";
