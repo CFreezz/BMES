@@ -10,20 +10,22 @@
 #define ARDUINO_ADDRESS 0x04
 #define ARDUINO_PORT S1
 #define i2cScanPort  S1
+
+
 char i2cScanDeviceMsg[6];
 ubyte replyMsg[10];                  // reply Message byte Array of size 10
-	char rMsg[2];
-	string msg = "";
-ubyte I2Cmessage(void){
+char rMsg[2];
+string msg = "";
 
-		sendI2CMsg(i2cScanPort, i2cScanDeviceMsg, 1);  // send a message from 'i2cScanDeviceMsg[0]' to
+ubyte I2Cmessage(void){
+	sendI2CMsg(i2cScanPort, i2cScanDeviceMsg, 1);  // send a message from 'i2cScanDeviceMsg[0]' to
     wait1Msec(20);                                 //'i2cScanPort' (S1), expecting a 1 byte return message
-		readI2CReply(i2cScanPort,&replyMsg[0], 1);
-		msg = "";
-		replyMsg[9] = 0;
-		rMsg[0] = replyMsg[0];
-		rMsg[1] = (char)0;
-		return rMsg[0];
+	readI2CReply(i2cScanPort,&replyMsg[0], 1);
+	msg = "";
+	replyMsg[9] = 0;
+	rMsg[0] = replyMsg[0];
+	rMsg[1] = (char)0;
+	return rMsg[0];
 }
 
 
@@ -35,137 +37,147 @@ task main()
 	i2cScanDeviceMsg[1] = 0x04;
 	int code = 0;
 	ubyte send = 0;
-//////////////
-//Initialization
-//reset motor angles to 0
-//////////////
+
+/** 
+ * Initialization
+ * reset motor angles to 0
+ */
 
 
 
-///////////////
+/* * * * * * * * * * * * * * * * */
 	while(true){
 		i2cScanDeviceMsg[2] = 0x0F;
 		I2Cmessage();
 		while(rMsg[0] != 0xF0){//wait for acknowledgement signal 0xF0 from tm4c
 			I2Cmessage();
 		}
-		//message begin acknowledged, see what tm4c123 wants
+		
+		/* message begin acknowledged, see what tm4c123 wants */
 		i2cScanDeviceMsg[2] = 0x21;
 		I2Cmessage();
 		stringFromChars(msg,rMsg);
 		nxtDisplayString(5, "%s", msg);
 		code = rMsg[0];
 		send = 0;
-		//Message is now in code, break into cases
-		//ALL CASES SHOULD EDIT THE 'SEND' VARIABLE, TM4 WILL BE SENT
-		// A REPLY, EVEN IF THERES NOTHING MEANINGFUL TO SEND
-		// 'A' : Send Motor A Position
+		
+		/*
+		 * Message is now in code, break into cases
+		 * ALL CASES SHOULD EDIT THE 'SEND' VARIABLE, TM4 WILL BE SENT
+		 * A REPLY, EVEN IF THERES NOTHING MEANINGFUL TO SEND
+		 */
+		
+
+		/* 'A' : Send Motor A position */
 		if(code == 'A'){
-
-		send = 0x01;
+			send = nMotorEncoder[motorA];
 		}
-		// 'B' : Send Motor B Position
+		/* 'B' : Send Motor B position */
 		if(code == 'B'){
-
-		send = 0x01;
+			send = nMotorEncoder[motorB];
 		}
-		// 'C' : Send Motor C Position
+		/* 'C' : Send Motor C position */
 		if(code == 'C'){
-
-		send = 0x01;
+			send = nMotorEncoder[motorC];
 		}
-		// 'D' : Motor A Go Forward
+		/* 'D' : Motor A go forward */
 		if(code == 'D'){
-
-		send = 0x01;
+			motor[motorA] = 69;
+			send = 0x69;
 		}
-		// 'E' : Motor B Go Forward
+		/* 'E' : Motor B go forward */
 		if(code == 'E'){
-
-		send = 0x01;
+			motor[motorB] = 69;
+			send = 0x69;
 		}
-		// 'F' : Motor C Go Forward
+		/* 'F' : Motor C go forward */
 		if(code == 'F'){
-
-		send = 0x01;
+			motor[motorC] = 69;
+			send = 0x69;
 		}
-		// 'G' : Motor A Go Backward
+		/* 'G' : Motor A go backward */
 		if(code == 'G'){
-
-		send = 0x01;
+			motor[motorA] = -69;
+			send = -0x69;
 		}
-		// 'H' : Motor B Go Forward
+		/* 'H' : Motor B go backward */
 		if(code == 'H'){
-
-		send = 0x01;
+			motor[motorB] = -69;
+			send = -0x69;
 		}
-		// 'I' : Motor C Go Backward
+		/* 'I' : Motor C go backward */
 		if(code == 'I'){
-
-		send = 0x01;
+			motor[motorC] = -69;
+			send = -0x69;
 		}
-		// 'J' : Motor A Stop
+		/* 'J' : Motor A stop */
 		if(code == 'J'){
-
-		send = 0x10;
+			motor[motorA] = 0;
+			send = 0x00;
 		}
-		// 'K' : Motor B Stop
+		/* 'K' : Motor B stop */
 		if(code == 'K'){
-
-		send = 0x01;
+			motor[motorB] = 0;
+			send = 0x00;
 		}
-		// 'L' : Motor C Stop
+		/* 'L' : Motor C stop */
 		if(code == 'L'){
-
-		send = 0x01;
+			motor[motorC] = 0;
+			send = 0x00;
 		}
-////////////
-//Set is special; if M,N, or O is sent there is a follow up I2C
-//message sent from the TM4C that says what position to set.
-//all positions are positive.
-//make sure physically motors are set to 0
-// motors a and c are on a gear track, and can be damaged if they go too far.
-//	TODO: find the max position they can be set after 0
-////////////
-		// 'M' : Set Motor A Position
+
+/**
+ * Set is special; if M,N, or O is sent there is a follow up I2C
+ * message sent from the TM4C that says what position to set.
+ * all positions are positive.
+ * make sure physically motors are set to 0
+ * motors a and c are on a gear track, and can be damaged if they go too far.
+ * TODO: find the max position they can be set after 0
+ */
+		/* 'M' : Set Motor A position */
 		if(code == 'M'){
-		ubyte pos	=	I2Cmessage();
-
-
-		send = 0x01;
+			ubyte pos = I2Cmessage();
+			while (nMotorEncoder[motorA] < pos){
+				motor[motorA] = 69;
+			}
+			send = 0x69;
 		}
-		// 'N' : Set Motor A Position
+		/* 'N' : Set Motor B position */
 		if(code == 'N'){
-		ubyte pos	=	I2Cmessage();
-
-		send = 0x01;
+			ubyte pos = I2Cmessage();
+			while (nMotorEncoder[motorB] < pos){
+				motor[motorB] = 69;
+			}
+			send = 0x69;
 		}
-		// 'O' : Set Motor A Position
+		/* 'O' : Set Motor C position */
 		if(code == 'O'){
-		ubyte pos	=	I2Cmessage();
-
-		send = 0x01;
+			ubyte pos = I2Cmessage();
+			while (nMotorEncoder[motorC] < pos){
+				motor[motorC] = 69;
+			}
+			send = 0x69;
 		}
-//////////////////////////////
-		// 'S' : Return Color Sensor Values for Red
-		// essentially decide if the RGB value is red enough and send a yes or no
+/* * * * * * * * * * * * * * * * */
+		/* 
+		 * 'S' : Return color sensor values for red
+		 * essentially decide if the RGB value is red enough and send a yes or no
+		 */
 		if(code == 'S'){
-
-		send = 0x01;
+			send = 0x01;
 		}
-		// 'U' : Return UltraSonic Sensor value
+		/* 'U' : Return UltraSonic sensor value */
 		if(code == 'U'){
-
-		send = 0x01;
+			send = 0x01;
 		}
-/////////////////////////////////
-//return to the tm4 the 'send' variable
-// this acknowledges message completion and sends any
-// requested data
+/* * * * * * * * * * * * * * * * * */
+/**
+ * Return to the tm4 the 'send' variable
+ * this acknowledges message completion and sends any
+ * requested data
+ */
 		i2cScanDeviceMsg[2] = send;
 		I2Cmessage();
-
-//loop
 		wait1Msec(100);
 
 	}
