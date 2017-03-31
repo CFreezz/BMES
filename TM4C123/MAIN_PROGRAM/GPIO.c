@@ -60,6 +60,7 @@
 #define SW1       0x10                      // on the left side of the Launchpad board
 #define SW2       0x01                      // on the right side of the Launchpad board
 #define SYSCTL_RCGC2_GPIOF      0x00000020  // port F Clock Gating Control
+#include "ServoInterface.h"
 void Board_Init(void){            
   SYSCTL_RCGCGPIO_R |= 0x20;     // 1) activate Port F
   while((SYSCTL_PRGPIO_R&0x20) == 0){};// ready?
@@ -172,12 +173,35 @@ int32_t Phase1(void){
 }
 
 
+void test_main(void){
+	servo_init();
+	servo_start();
+	//servo_Lopen();
+	servo_Lclose();
+	//servo_Ropen();
+	servo_Rclose();
+	while(1){
+	}
+}
 
 
-
-
+int testMain(void){
+	servo_init();
+	servo_start();
+	//servo_Lbackward();
+	//servo_Rbackward();
+	//servo_Rforward();
+	//servo_Lforward();
+	servo_Lmiddle();
+	servo_Rmiddle();
+	while(1){
+		
+	}
+}
 int main(void){ // reset clears AFSEL, PCTL, AMSEL
 	PLL_Init(Bus80MHz);
+	//testMain();
+	test_main();
   SysTick_Init();
 	Board_Init();
 	I2C_Init();
