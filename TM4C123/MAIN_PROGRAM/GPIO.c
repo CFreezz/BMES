@@ -176,9 +176,9 @@ int32_t Phase1(void){
 void test_main(void){
 	servo_init();
 	servo_start();
-	servo_Lopen();
+	//servo_Lopen();
 	servo_Lclose();
-	servo_Ropen();
+	//servo_Ropen();
 	servo_Rclose();
 	while(1){
 	}
@@ -200,7 +200,8 @@ int testMain(void){
 }
 int main(void){ // reset clears AFSEL, PCTL, AMSEL
 	PLL_Init(Bus80MHz);
-	testMain();
+	//testMain();
+	test_main();
   SysTick_Init();
 	Board_Init();
 	I2C_Init();
