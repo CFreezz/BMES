@@ -38,7 +38,7 @@ task main()
 	int code = 0;
 	ubyte send = 0;
 
-/** 
+/**
  * Initialization
  * reset motor angles to 0
  */
@@ -52,7 +52,7 @@ task main()
 		while(rMsg[0] != 0xF0){//wait for acknowledgement signal 0xF0 from tm4c
 			I2Cmessage();
 		}
-		
+
 		/* message begin acknowledged, see what tm4c123 wants */
 		i2cScanDeviceMsg[2] = 0x21;
 		I2Cmessage();
@@ -60,13 +60,13 @@ task main()
 		nxtDisplayString(5, "%s", msg);
 		code = rMsg[0];
 		send = 0;
-		
+
 		/*
 		 * Message is now in code, break into cases
 		 * ALL CASES SHOULD EDIT THE 'SEND' VARIABLE, TM4 WILL BE SENT
 		 * A REPLY, EVEN IF THERES NOTHING MEANINGFUL TO SEND
 		 */
-		
+
 
 		/* 'A' : Send Motor A position */
 		if(code == 'A'){
@@ -98,17 +98,17 @@ task main()
 		/* 'G' : Motor A go backward */
 		if(code == 'G'){
 			motor[motorA] = -69;
-			send = -0x69;
+			send = 0x69;
 		}
 		/* 'H' : Motor B go backward */
 		if(code == 'H'){
 			motor[motorB] = -69;
-			send = -0x69;
+			send = 0x69;
 		}
 		/* 'I' : Motor C go backward */
 		if(code == 'I'){
 			motor[motorC] = -69;
-			send = -0x69;
+			send = 0x69;
 		}
 		/* 'J' : Motor A stop */
 		if(code == 'J'){
@@ -148,6 +148,7 @@ task main()
 			while (nMotorEncoder[motorB] < pos){
 				motor[motorB] = 69;
 			}
+			motor[motorB] = 0;
 			send = 0x69;
 		}
 		/* 'O' : Set Motor C position */
@@ -159,7 +160,7 @@ task main()
 			send = 0x69;
 		}
 /* * * * * * * * * * * * * * * * */
-		/* 
+		/*
 		 * 'S' : Return color sensor values for red
 		 * essentially decide if the RGB value is red enough and send a yes or no
 		 */

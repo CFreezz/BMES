@@ -41,6 +41,7 @@
 #include "PLL.h"
 #include "ADCSWTrigger.h"
 #include "I2C.h"
+#include "ServoInterface.h"
 
 #define LEDS (*((volatile uint32_t *)0x4000703C))
 // access PD3-PD0
