@@ -7,10 +7,17 @@
 
 /* This example accompanies the book
    "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
+<<<<<<< HEAD
    ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2013
   Program 7.5, example 7.6
 
  Copyright 2013 by Jonathan W. Valvano, valvano@mail.utexas.edu
+=======
+   ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2015
+  Program 7.5, example 7.6
+
+ Copyright 2015 by Jonathan W. Valvano, valvano@mail.utexas.edu
+>>>>>>> da1456c3bbb8de076b64e227d098b5b12176cc88
     You may use, edit, run or distribute this file
     as long as the above copyright notice remains
  THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
