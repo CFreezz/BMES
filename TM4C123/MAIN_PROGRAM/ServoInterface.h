@@ -20,3 +20,7 @@ void servo_Lbackward(void);
 void servo_Rforward(void);
 
 void servo_Rbackward(void);
+
+void servo_Lmiddle(void);
+
+void servo_Rmiddle(void);

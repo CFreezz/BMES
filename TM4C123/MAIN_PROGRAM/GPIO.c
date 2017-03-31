@@ -41,6 +41,7 @@
 #include "PLL.h"
 #include "ADCSWTrigger.h"
 #include "I2C.h"
+#include "ServoInterface.h"
 
 #define LEDS (*((volatile uint32_t *)0x4000703C))
 // access PD3-PD0
@@ -174,9 +175,22 @@ int32_t Phase1(void){
 
 
 
-
+int testMain(void){
+	servo_init();
+	servo_start();
+	//servo_Lbackward();
+	//servo_Rbackward();
+	//servo_Rforward();
+	//servo_Lforward();
+	servo_Lmiddle();
+	servo_Rmiddle();
+	while(1){
+		
+	}
+}
 int main(void){ // reset clears AFSEL, PCTL, AMSEL
 	PLL_Init(Bus80MHz);
+	testMain();
   SysTick_Init();
 	Board_Init();
 	I2C_Init();

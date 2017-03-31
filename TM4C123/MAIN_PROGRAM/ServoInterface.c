@@ -57,22 +57,22 @@ void increment(void){
 	itr++;
 	
 	if(itr == duty_pf1){
-		PF1 = 0x02;	
+		PF1 = 0x0;	
 	}
 	if(itr == duty_pf2){
-		PF2 = 0x04;
+		PF2 = 0x0;
 	}
 	if(itr == duty_pf3){
-		PF3 = 0x08;
+		PF3 = 0x0;
 	}
 	if(itr == duty_pd1){
-		PD1 = 0x02;
+		PD1 = 0x0;
 	}
 	if(itr == duty_pd2){
-		PD2 = 0x04;
+		PD2 = 0x0;
 	}
 	if(itr == duty_pd3){
-		PD3 = 0x08;
+		PD3 = 0x0;
 	}
 	if(itr>=2000){
 		reset();
@@ -108,3 +108,33 @@ void servo_start(void){
 	EnableInterrupts();
 }
 
+
+uint32_t LBS_forward = 125;
+uint32_t LBS_middle = 157;
+uint32_t LBS_backward = 190;
+uint32_t RBS_forward = 180;
+uint32_t RBS_middle = 145;
+uint32_t RBS_backward = 115;
+void servo_Lforward(void){
+	duty_pf1 = LBS_forward;
+}
+
+void servo_Lbackward(void){
+	duty_pf1 = LBS_backward;
+}
+
+void servo_Rforward(void){
+	duty_pd1 = RBS_forward;
+}
+
+void servo_Rbackward(void){
+	duty_pd1 = RBS_backward;
+}
+
+void servo_Lmiddle(void){
+	duty_pf1 = LBS_middle;
+}
+
+void servo_Rmiddle(void){
+	duty_pd1 = RBS_middle;
+}
