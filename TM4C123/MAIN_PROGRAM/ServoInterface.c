@@ -57,6 +57,7 @@ void increment(void){
 	itr++;
 	
 	if(itr == duty_pf1){
+<<<<<<< HEAD
 		PF1 = 0x00;	
 	}
 	if(itr == duty_pf2){
@@ -73,6 +74,24 @@ void increment(void){
 	}
 	if(itr == duty_pd3){
 		PD3 = 0x00;
+=======
+		PF1 = 0x0;	
+	}
+	if(itr == duty_pf2){
+		PF2 = 0x0;
+	}
+	if(itr == duty_pf3){
+		PF3 = 0x0;
+	}
+	if(itr == duty_pd1){
+		PD1 = 0x0;
+	}
+	if(itr == duty_pd2){
+		PD2 = 0x0;
+	}
+	if(itr == duty_pd3){
+		PD3 = 0x0;
+>>>>>>> f3d5c54a6731b7498c3f49f09423f6f8f10bab42
 	}
 	if(itr>=2000){
 		reset();
@@ -108,6 +127,7 @@ void servo_start(void){
 	EnableInterrupts();
 }
 
+<<<<<<< HEAD
 void servo_Lopen(void){
 	duty_pf2 = LSSL_open;
 	duty_pf3 = LSSR_open;
@@ -125,3 +145,35 @@ void servo_Rclose(void){
 	duty_pd3 = RSSR_closed;
 }
 
+=======
+
+uint32_t LBS_forward = 125;
+uint32_t LBS_middle = 157;
+uint32_t LBS_backward = 190;
+uint32_t RBS_forward = 180;
+uint32_t RBS_middle = 145;
+uint32_t RBS_backward = 115;
+void servo_Lforward(void){
+	duty_pf1 = LBS_forward;
+}
+
+void servo_Lbackward(void){
+	duty_pf1 = LBS_backward;
+}
+
+void servo_Rforward(void){
+	duty_pd1 = RBS_forward;
+}
+
+void servo_Rbackward(void){
+	duty_pd1 = RBS_backward;
+}
+
+void servo_Lmiddle(void){
+	duty_pf1 = LBS_middle;
+}
+
+void servo_Rmiddle(void){
+	duty_pd1 = RBS_middle;
+}
+>>>>>>> f3d5c54a6731b7498c3f49f09423f6f8f10bab42
