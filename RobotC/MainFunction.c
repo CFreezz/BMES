@@ -28,10 +28,51 @@ ubyte I2Cmessage(void){
 	return rMsg[0];
 }
 
+/**
+ * Resets all motors to position '0'
+ * @Param:	None
+ * @Return:	None
+ */
+void resetMotorPositions(void){
+	/* Resets motorA to position 0 */
+	if(nMotorEncoder[motorA] < pos){
+		while (nMotorEncoder[motorA] < pos){
+			motor[motorA] = 69;
+		}
+	}else if(nMotorEncoder[motorA] > pos){
+		while (nMotorEncoder > pos){
+			motor[motorA] = -69;
+		}
+	}else{}
+	motor[motorA] = 0;
+
+	/* Resets motorB to position 0 */
+	if(nMotorEncoder[motorB] < pos){
+		while (nMotorEncoder[motorB] < pos){
+			motor[motorB] = 69;
+		}
+	}else if(nMotorEncoder[motorB] > pos){
+		while (nMotorEncoder > pos){
+			motor[motorB] = -69;
+		}
+	}else{}
+	motor[motorB] = 0;
+
+	/* Resets motorC to position 0 */
+	if(nMotorEncoder[motorC] < pos){
+		while (nMotorEncoder[motorC] < pos){
+			motor[motorC] = 69;
+		}
+	}else if(nMotorEncoder[motorC] > pos){
+		while (nMotorEncoder > pos){
+			motor[motorC] = -69;
+		}
+	}else{}
+	motor[motorC] = 0;
+}
 
 
-task main()
-{
+task main() {
 	nI2CRetries = 0;
 	i2cScanDeviceMsg[0] = 0x02;
 	i2cScanDeviceMsg[1] = 0x04;
@@ -42,11 +83,13 @@ task main()
  * Initialization
  * reset motor angles to 0
  */
+	resetMotorPositions();
+
 
 
 
 /* * * * * * * * * * * * * * * * */
-	while(true){
+	while(true) {
 		i2cScanDeviceMsg[2] = 0x0F;
 		I2Cmessage();
 		while(rMsg[0] != 0xF0){//wait for acknowledgement signal 0xF0 from tm4c
@@ -137,26 +180,53 @@ task main()
 		/* 'M' : Set Motor A position */
 		if(code == 'M'){
 			ubyte pos = I2Cmessage();
-			while (nMotorEncoder[motorA] < pos){
-				motor[motorA] = 69;
-			}
+
+			if(nMotorEncoder[motorA] < pos){
+				while (nMotorEncoder[motorA] < pos){
+					motor[motorA] = 69;
+				}
+			}else if(nMotorEncoder[motorA] > pos){
+				while (nMotorEncoder > pos){
+					motor[motorA] = -69;
+				}
+			}else{}
+
+			motor[motorA] = 0;
 			send = 0x69;
+
 		}
 		/* 'N' : Set Motor B position */
 		if(code == 'N'){
 			ubyte pos = I2Cmessage();
-			while (nMotorEncoder[motorB] < pos){
-				motor[motorB] = 69;
-			}
+
+			if(nMotorEncoder[motorB] < pos){
+				while (nMotorEncoder[motorB] < pos){
+					motor[motorB] = 69;
+				}
+			}else if(nMotorEncoder[motorB] > pos){
+				while (nMotorEncoder > pos){
+					motor[motorB] = -69;
+				}
+			}else{}
+
 			motor[motorB] = 0;
 			send = 0x69;
 		}
 		/* 'O' : Set Motor C position */
 		if(code == 'O'){
 			ubyte pos = I2Cmessage();
-			while (nMotorEncoder[motorC] < pos){
-				motor[motorC] = 69;
-			}
+
+			if(nMotorEncoder[motorC] < pos){
+				while (nMotorEncoder[motorC] < pos){
+					motor[motorC] = 69;
+				}
+			}else if(nMotorEncoder[motorC] > pos){
+				while (nMotorEncoder > pos){
+					motor[motorC] = -69;
+				}
+			}else{}
+
+			motor[motorC] = 0;
 			send = 0x69;
 		}
 /* * * * * * * * * * * * * * * * */
